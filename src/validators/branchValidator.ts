@@ -20,6 +20,8 @@ export const createLocationSchema = z.object({
   city: z.string().min(1, 'City is required'),
   countryId: z.coerce.number().int().positive('Country ID is required'),
   comingSoon: z.preprocess((val) => val === 'true' || val === true, z.boolean()).optional(),
+  directionLink: z.string().optional().nullable(),
+  contactLink: z.string().optional().nullable(),
 });
 
 export const updateLocationSchema = z.object({
@@ -32,6 +34,8 @@ export const updateLocationSchema = z.object({
   city: z.string().min(1, 'City is required').optional(),
   countryId: z.coerce.number().int().positive('Country ID is required').optional(),
   comingSoon: z.preprocess((val) => val === 'true' || val === true, z.boolean()).optional(),
+  directionLink: z.string().optional().nullable(),
+  contactLink: z.string().optional().nullable(),
 });
 
 export type CreateCountryInput = z.infer<typeof createCountrySchema>;

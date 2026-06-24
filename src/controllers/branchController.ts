@@ -32,6 +32,8 @@ export async function getBranches(
         city: loc.city,
         countryId: loc.countryId,
         comingSoon: loc.comingSoon,
+        directionLink: loc.directionLink,
+        contactLink: loc.contactLink,
         createdAt: loc.createdAt,
         updatedAt: loc.updatedAt,
       })),

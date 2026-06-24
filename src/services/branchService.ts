@@ -66,6 +66,8 @@ export async function createLocation(input: CreateLocationInput) {
       city: input.city,
       countryId: input.countryId,
       comingSoon: input.comingSoon,
+      directionLink: input.directionLink,
+      contactLink: input.contactLink,
     },
   });
 }
@@ -83,6 +85,8 @@ export async function updateLocation(id: number, input: UpdateLocationInput) {
       ...(input.city !== undefined && { city: input.city }),
       ...(input.countryId !== undefined && { countryId: input.countryId }),
       ...(input.comingSoon !== undefined && { comingSoon: input.comingSoon }),
+      ...(input.directionLink !== undefined && { directionLink: input.directionLink }),
+      ...(input.contactLink !== undefined && { contactLink: input.contactLink }),
     },
   });
 }
