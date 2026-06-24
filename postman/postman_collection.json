@@ -1,0 +1,1104 @@
+{
+  "info": {
+    "_postman_id": "8ca0cf9e-10ff-4f4b-87b6-12ba776bc19c",
+    "name": "Vasanta Bhavan Framer API",
+    "description": "Collection of all API endpoints for the Vasanta Bhavan Framer website, including public views and authenticated admin configurations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "your_jwt_bearer_token_here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "User Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@framer.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hero",
+      "item": [
+        {
+          "name": "Get Hero Configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/hero?page=home",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "hero"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "home"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Hero Configuration",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "titleHtml",
+                  "value": "Fresh <span>Flavors</span>",
+                  "type": "text"
+                },
+                {
+                  "key": "subtitleHtml",
+                  "value": "Delicious South Indian Meals",
+                  "type": "text"
+                },
+                {
+                  "key": "webBanner",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "mobileBanner",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/hero",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "hero"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Branches",
+      "item": [
+        {
+          "name": "List All Branches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/branches",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "branches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Countries",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/countries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "countries"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Country",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"India\",\n  \"overrideCount\": 42\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/countries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "countries"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Country",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"India Updated\",\n  \"overrideCount\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/countries/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "countries",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Country",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/countries/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "countries",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Location",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Vasanta Bhavan - Chennai",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Bharathi Nagar, Chennai",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+91 99528 34444",
+                  "type": "text"
+                },
+                {
+                  "key": "time",
+                  "value": "11:00 am - 9:30 pm",
+                  "type": "text"
+                },
+                {
+                  "key": "state",
+                  "value": "Tamil Nadu",
+                  "type": "text"
+                },
+                {
+                  "key": "city",
+                  "value": "Chennai",
+                  "type": "text"
+                },
+                {
+                  "key": "comingSoon",
+                  "value": "false",
+                  "type": "text"
+                },
+                {
+                  "key": "countryId",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/locations",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "locations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Location",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Vasanta Bhavan - Chennai Updated",
+                  "type": "text"
+                },
+                {
+                  "key": "address",
+                  "value": "Bharathi Nagar, Chennai",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+91 99528 34444",
+                  "type": "text"
+                },
+                {
+                  "key": "time",
+                  "value": "11:00 am - 9:30 pm",
+                  "type": "text"
+                },
+                {
+                  "key": "state",
+                  "value": "Tamil Nadu",
+                  "type": "text"
+                },
+                {
+                  "key": "city",
+                  "value": "Chennai",
+                  "type": "text"
+                },
+                {
+                  "key": "comingSoon",
+                  "value": "true",
+                  "type": "text"
+                },
+                {
+                  "key": "countryId",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/locations/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "locations",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Location",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/locations/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "locations",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Gallery Images",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/branches/gallery",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "branches",
+                "gallery"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Gallery Image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "row",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "displayOrder",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/branches/gallery",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "branches",
+                "gallery"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Gallery Image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "row",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "displayOrder",
+                  "value": "2",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/branches/gallery/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "branches",
+                "gallery",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Gallery Image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/branches/gallery/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "branches",
+                "gallery",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reorder Gallery Images",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    { \"id\": 1, \"displayOrder\": 1 },\n    { \"id\": 2, \"displayOrder\": 2 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/branches/gallery/reorder",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "branches",
+                "gallery",
+                "reorder"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CTA",
+      "item": [
+        {
+          "name": "Get CTA configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/cta?page=privacy",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cta"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "privacy"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update CTA Configuration",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "page",
+                  "value": "privacy",
+                  "type": "text"
+                },
+                {
+                  "key": "titleHtml",
+                  "value": "Contact Us",
+                  "type": "text"
+                },
+                {
+                  "key": "subtitleHtml",
+                  "value": "Get in touch",
+                  "type": "text"
+                },
+                {
+                  "key": "contactUsUrl",
+                  "value": "/contact",
+                  "type": "text"
+                },
+                {
+                  "key": "exploreMenuUrl",
+                  "value": "/menu",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/cta",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "cta"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "item": [
+        {
+          "name": "Get Categories & Blocks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/menu/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Menu Block",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "subtitle",
+                  "value": "THE ART OF BREAKFAST",
+                  "type": "text"
+                },
+                {
+                  "key": "titleHighlight",
+                  "value": "The Morning ",
+                  "type": "text"
+                },
+                {
+                  "key": "titleNormal",
+                  "value": "Ritual.",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "The aroma of filter coffee",
+                  "type": "text"
+                },
+                {
+                  "key": "badgeLabel",
+                  "value": "OUR BESTSELLER",
+                  "type": "text"
+                },
+                {
+                  "key": "badgeTitle",
+                  "value": "Ghee Roast",
+                  "type": "text"
+                },
+                {
+                  "key": "badgeDescription",
+                  "value": "Dosa details",
+                  "type": "text"
+                },
+                {
+                  "key": "badgeLink",
+                  "value": "VIEW MENU",
+                  "type": "text"
+                },
+                {
+                  "key": "buttonLabel",
+                  "value": "VIEW ALL",
+                  "type": "text"
+                },
+                {
+                  "key": "align",
+                  "value": "left",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/menu/blocks/breakfast",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "menu",
+                "blocks",
+                "breakfast"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reorder Menu Categories",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\"breakfast\", \"coffee\", \"fresh-juices\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/menu/categories/reorder",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "menu",
+                "categories",
+                "reorder"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Menu Experiences",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/menu/experiences",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "menu",
+                "experiences"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Menu Experience",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "id",
+                  "value": "midnight-snacks",
+                  "type": "text"
+                },
+                {
+                  "key": "time",
+                  "value": "10:30 PM - 12:00 AM",
+                  "type": "text"
+                },
+                {
+                  "key": "title",
+                  "value": "Midnight Cravings",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Late night cravings.",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/menu/experiences",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "menu",
+                "experiences"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Menu Experience",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "time",
+                  "value": "07:00 AM - 11:00 AM",
+                  "type": "text"
+                },
+                {
+                  "key": "title",
+                  "value": "Morning Mist Updated",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Freshly brewed coffee.",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/menu/experiences/morning",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "menu",
+                "experiences",
+                "morning"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Menu Experience",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/menu/experiences/morning",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "menu",
+                "experiences",
+                "morning"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reorder Menu Experiences",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\"morning\", \"noon\", \"evening\", \"night\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/menu/experiences/reorder",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "menu",
+                "experiences",
+                "reorder"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HeroConfig {
+  id              Int      @id @default(autoincrement())
+  page            String   @unique @default("home")
+  titleHtml       String
+  subtitleHtml    String
+  webBannerUrl    String
+  mobileBannerUrl String
+  updatedAt       DateTime @updatedAt
+}
+
+model Country {
+  id            Int        @id @default(autoincrement())
+  name          String     @unique
+  overrideCount Int?
+  locations     Location[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  title     String
+  address   String
+  phone     String
+  time      String
+  imageUrl  String
+  state     String
+  city      String
+  comingSoon Boolean  @default(false)
+  country   Country  @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  countryId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PrivacyPolicyCTA {
+  id             Int      @id @default(autoincrement())
+  page           String   @unique @default("privacy")
+  imageUrl       String
+  titleHtml      String
+  subtitleHtml   String
+  contactUsUrl   String
+  exploreMenuUrl String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model MenuCategory {
+  id           String     @id // e.g. "breakfast", "coffee"
+  name         String     // e.g. "BREAKFAST"
+  width        String     // e.g. "w-[156px]"
+  displayOrder Int        @default(0)
+  menuBlock    MenuBlock?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model MenuBlock {
+  id               String       @id // Matches MenuCategory id
+  category         MenuCategory @relation(fields: [id], references: [id], onDelete: Cascade)
+  imageUrl         String       // Uploaded image path
+  subtitle         String       // e.g. "THE ART OF BREAKFAST"
+  titleHighlight   String       // e.g. "The Morning "
+  titleNormal      String       // e.g. "Ritual."
+  description      String       // HTML supported description
+  
+  // Optional Badge fields
+  badgeLabel       String?
+  badgeTitle       String?
+  badgeDescription String?
+  badgeLink        String?
+
+  // Optional Button fields
+  buttonLabel      String?      // e.g. "VIEW FULL CATEGORY"
+  align            String       @default("left")
+  
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model MenuExperience {
+  id           String   @id
+  time         String
+  title        String
+  description  String
+  imageUrl     String
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model BranchGalleryImage {
+  id           Int      @id @default(autoincrement())
+  imageUrl     String
+  row          Int      // 1 or 2 to represent Row 1 or Row 2 of the marquee
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+
+
