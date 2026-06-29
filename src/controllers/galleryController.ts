@@ -89,7 +89,7 @@ export async function reorderGalleryImages(
   try {
     const validatedBody = reorderGalleryImagesSchema.parse(req.body);
     await galleryService.reorderGalleryImages(validatedBody.items);
-    sendSuccess(res, null, 'Gallery images reordered successfully');
+    sendSuccess(res, null, 'Image row updated successfully');
   } catch (error) {
     next(error);
   }
