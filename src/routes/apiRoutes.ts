@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login } from '../controllers/authController.js';
+import { login, refresh } from '../controllers/authController.js';
 import { getHero, updateHero } from '../controllers/heroController.js';
 import {
   getBranches,
@@ -31,6 +31,7 @@ const uploadFields = upload.fields([
 
 // Auth routes
 router.post('/auth/login', login);
+router.post('/auth/refresh', refresh);
 
 // Hero routes
 router.get('/hero', getHero);

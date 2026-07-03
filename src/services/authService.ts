@@ -1,9 +1,10 @@
 import prisma from '../utils/prisma.js';
-import { comparePassword, hashPassword, generateToken } from '../utils/authHelper.js';
+import { comparePassword, hashPassword, generateToken, generateRefreshToken } from '../utils/authHelper.js';
 import { LoginInput } from '../validators/authValidator.js';
 
 interface LoginResult {
   token: string;
+  refreshToken: string;
   user: {
     id: number;
     email: string;
@@ -42,9 +43,11 @@ export async function loginUser(input: LoginInput): Promise<LoginResult | null> 
   }
 
   const token = generateToken({ userId: user.id, email: user.email });
+  const refreshToken = generateRefreshToken({ userId: user.id, email: user.email });
 
   return {
     token,
+    refreshToken,
     user: {
       id: user.id,
       email: user.email,
