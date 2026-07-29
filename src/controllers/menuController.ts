@@ -7,13 +7,18 @@ import {
   createExperience, 
   updateExperience, 
   deleteExperience, 
-  reorderExperiences 
+  reorderExperiences,
+  createMenuCategory,
+  updateMenuCategory,
+  deleteMenuCategory
 } from '../services/menuService.js';
 import { sendSuccess } from '../utils/response.js';
 import { 
   updateMenuBlockSchema, 
   createMenuExperienceSchema, 
-  updateMenuExperienceSchema 
+  updateMenuExperienceSchema,
+  createMenuCategorySchema,
+  updateMenuCategorySchema
 } from '../validators/menuValidator.js';
 
 export async function getCategories(
@@ -169,6 +174,58 @@ export async function reorderMenuExperiences(
     }
     await reorderExperiences(ids);
     sendSuccess(res, null, 'Menu experiences reordered successfully');
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function createCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const validatedBody = createMenuCategorySchema.parse({
+      id: req.body.id,
+      name: req.body.name,
+      width: req.body.width,
+    });
+
+    const created = await createMenuCategory(validatedBody);
+    sendSuccess(res, created, 'Menu category created successfully', 201);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function updateCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const id = req.params.id as string;
+    const validatedBody = updateMenuCategorySchema.parse({
+      name: req.body.name,
+      width: req.body.width,
+    });
+
+    const updated = await updateMenuCategory(id, validatedBody);
+    sendSuccess(res, updated, 'Menu category updated successfully');
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const id = req.params.id as string;
+    await deleteMenuCategory(id);
+    sendSuccess(res, null, 'Menu category deleted successfully');
   } catch (error) {
     next(error);
   }

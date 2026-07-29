@@ -65,6 +65,9 @@ router.post('/admin/cta', requireAuth, upload.single('image'), updateCta);
 // Menu Categories and Blocks routes
 import { 
   getCategories, 
+  createCategory,
+  updateCategory,
+  deleteCategory,
   updateBlock, 
   reorder,
   getExperiences,
@@ -74,6 +77,9 @@ import {
   reorderMenuExperiences
 } from '../controllers/menuController.js';
 router.get('/menu/categories', getCategories);
+router.post('/admin/menu/categories', requireAuth, createCategory);
+router.put('/admin/menu/categories/:id', requireAuth, updateCategory);
+router.delete('/admin/menu/categories/:id', requireAuth, deleteCategory);
 router.post('/admin/menu/blocks/:id', requireAuth, upload.single('image'), updateBlock);
 router.put('/admin/menu/categories/reorder', requireAuth, reorder);
 

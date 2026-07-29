@@ -36,3 +36,17 @@ export const updateMenuExperienceSchema = z.object({
 export type CreateMenuExperienceInput = z.infer<typeof createMenuExperienceSchema>;
 export type UpdateMenuExperienceInput = z.infer<typeof updateMenuExperienceSchema>;
 
+export const createMenuCategorySchema = z.object({
+  id: z.string().min(1, 'ID is required').regex(/^[a-z0-9-]+$/, 'ID must be lowercase alphanumeric or hyphens'),
+  name: z.string().min(1, 'Name is required'),
+  width: z.string().min(1, 'Width is required').optional().default('w-[150px]'),
+  displayOrder: z.number().int().default(0).optional(),
+});
+
+export const updateMenuCategorySchema = z.object({
+  name: z.string().min(1, 'Name is required').optional(),
+  width: z.string().min(1, 'Width is required').optional(),
+});
+
+export type CreateMenuCategoryInput = z.infer<typeof createMenuCategorySchema>;
+export type UpdateMenuCategoryInput = z.infer<typeof updateMenuCategorySchema>;

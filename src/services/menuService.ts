@@ -1,5 +1,11 @@
 import prisma from '../utils/prisma.js';
-import { UpdateMenuBlockInput, CreateMenuExperienceInput, UpdateMenuExperienceInput } from '../validators/menuValidator.js';
+import { 
+  UpdateMenuBlockInput, 
+  CreateMenuExperienceInput, 
+  UpdateMenuExperienceInput,
+  CreateMenuCategoryInput,
+  UpdateMenuCategoryInput
+} from '../validators/menuValidator.js';
 
 export async function listCategories() {
   const count = await prisma.menuCategory.count();
@@ -136,5 +142,43 @@ export async function reorderExperiences(ids: string[]) {
       })
     )
   );
+}
+
+export async function createMenuCategory(input: CreateMenuCategoryInput) {
+  let displayOrder = input.displayOrder;
+  if (displayOrder === undefined || displayOrder === 0) {
+    const maxCat = await prisma.menuCategory.findFirst({
+      orderBy: { displayOrder: 'desc' },
+    });
+    displayOrder = maxCat ? maxCat.displayOrder + 1 : 0;
+  }
+
+  return prisma.menuCategory.create({
+    data: {
+      id: input.id,
+      name: input.name,
+      width: input.width || 'w-[150px]',
+      displayOrder,
+    },
+    include: {
+      menuBlock: true,
+    },
+  });
+}
+
+export async function updateMenuCategory(id: string, input: UpdateMenuCategoryInput) {
+  return prisma.menuCategory.update({
+    where: { id },
+    data: input,
+    include: {
+      menuBlock: true,
+    },
+  });
+}
+
+export async function deleteMenuCategory(id: string) {
+  return prisma.menuCategory.delete({
+    where: { id },
+  });
 }
 
