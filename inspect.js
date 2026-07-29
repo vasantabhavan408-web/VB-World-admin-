@@ -6,6 +6,7 @@ async function main() {
   console.log("All CTA records:", ctas);
   const heroConfigs = await prisma.heroConfig.findMany();
   console.log("All Hero configs:", heroConfigs);
+  
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect());
