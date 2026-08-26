@@ -1,3 +1,4 @@
+import 'multer';
 import { Request } from 'express';
 
 declare global {
