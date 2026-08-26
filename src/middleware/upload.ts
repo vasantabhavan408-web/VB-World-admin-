@@ -4,11 +4,15 @@ import fs from 'fs';
 import { S3Client } from '@aws-sdk/client-s3';
 import multerS3 from 'multer-s3';
 
-const UPLOAD_DIR = './public/uploads';
+const UPLOAD_DIR = process.env.VERCEL ? '/tmp/uploads' : path.resolve(process.cwd(), 'public/uploads');
 
-// Ensure upload directory exists
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+// Ensure upload directory exists safely without throwing on read-only serverless environments
+try {
+  if (!fs.existsSync(UPLOAD_DIR)) {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+  }
+} catch (err) {
+  // Ignored in serverless environments
 }
 
 const isS3Configured =
@@ -43,6 +47,11 @@ if (isS3Configured) {
 } else {
   storage = multer.diskStorage({
     destination: (req, file, cb) => {
+      try {
+        if (!fs.existsSync(UPLOAD_DIR)) {
+          fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+        }
+      } catch (err) {}
       cb(null, UPLOAD_DIR);
     },
     filename: (req, file, cb) => {
