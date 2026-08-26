@@ -7,7 +7,10 @@
     "dev": "tsx watch src/index.ts",
     "build": "prisma generate && tsc",
     "start": "node dist/index.js",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:import": "tsx scripts/import-db.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
