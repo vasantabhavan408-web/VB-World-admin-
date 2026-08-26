@@ -15,13 +15,13 @@ export async function getBranches(
 ): Promise<void> {
   try {
     const data = await branchService.getAllCountriesWithLocations();
-    const formattedData = data.map((country) => ({
+    const formattedData = (data as any[]).map((country: any) => ({
       id: country.id,
       name: country.name,
       overrideCount: country.overrideCount,
       createdAt: country.createdAt,
       updatedAt: country.updatedAt,
-      locations: country.locations.map((loc) => ({
+      locations: (country.locations || []).map((loc: any) => ({
         id: loc.id,
         title: loc.title,
         address: loc.address,
