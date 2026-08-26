@@ -39,6 +39,26 @@ const limiter = rateLimit({
 // Mount API routes
 app.use('/api', apiRoutes);
 
+// Root endpoint
+app.get('/', (req: Request, res: Response) => {
+  sendSuccess(
+    res,
+    {
+      name: 'VB World Backend API',
+      status: 'active',
+      endpoints: {
+        health: '/health',
+        branches: '/api/branches',
+        menu: '/api/menu',
+        hero: '/api/hero',
+        cta: '/api/cta',
+        gallery: '/api/gallery',
+      },
+    },
+    'VB World API Server is running'
+  );
+});
+
 // Health Check
 app.get('/health', (req: Request, res: Response) => {
   sendSuccess(res, { status: 'healthy', timestamp: new Date() }, 'API is active');
