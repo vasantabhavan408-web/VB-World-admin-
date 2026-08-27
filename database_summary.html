@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VB World - Database Architecture & Setup Summary</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm 20mm 15mm;
+    }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      font-size: 13px;
+    }
+    .header {
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .header h1 {
+      font-size: 24px;
+      margin: 0;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .header .subtitle {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .header .badge {
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid #bfdbfe;
+    }
+    h2 {
+      font-size: 15px;
+      color: #1e293b;
+      border-left: 4px solid #3b82f6;
+      padding-left: 10px;
+      margin-top: 22px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .card-title {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .card-value {
+      font-size: 13px;
+      color: #0f172a;
+      font-weight: 600;
+      word-break: break-all;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      margin-bottom: 18px;
+      font-size: 12px;
+    }
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      text-align: left;
+      padding: 8px 10px;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 7px 10px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    code {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 11px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .tag-primary { background: #dbeafe; color: #1e40af; }
+    .tag-success { background: #dcfce7; color: #166534; }
+    ul {
+      margin: 6px 0;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    .footer {
+      margin-top: 25px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>VB World - Database Architecture Summary</h1>
+      <div class="subtitle">Production PostgreSQL Database Configuration & Schema Reference</div>
+    </div>
+    <div class="badge">Render PostgreSQL & pgAdmin</div>
+  </div>
+
+  <h2>1. Cloud Database Details</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="card-title">Database Engine</div>
+      <div class="card-value">PostgreSQL 16 (Render Cloud)</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Database Name</div>
+      <div class="card-value"><code>vbworld_db_9th2</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Host / Server</div>
+      <div class="card-value"><code>dpg-da7t39lg1s2s73fakd30-a.singapore-postgres.render.com</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Port & SSL</div>
+      <div class="card-value">Port: <code>5432</code> | SSL Mode: <code>Require</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Backend API Service</div>
+      <div class="card-value"><code>https://vb-world-api-b7s0.onrender.com</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Frontend Client (Vercel)</div>
+      <div class="card-value"><code>https://vbworld.vercel.app</code></div>
+    </div>
+  </div>
+
+  <h2>2. Table Schemas & Stored Records</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 18%;">Table Name</th>
+        <th style="width: 28%;">Purpose</th>
+        <th style="width: 34%;">Key Schema Fields</th>
+        <th style="width: 20%;">Loaded Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>User</b></td>
+        <td>Admin authentication & login credentials</td>
+        <td><code>id</code>, <code>email</code>, <code>password</code> (bcrypt hash), <code>name</code></td>
+        <td><span class="tag tag-primary">1 Admin</span> (<code>admin@framer.com</code>)</td>
+      </tr>
+      <tr>
+        <td><b>HeroConfig</b></td>
+        <td>Page-level hero banners and subtitles</td>
+        <td><code>id</code>, <code>page</code>, <code>titleHtml</code>, <code>subtitleHtml</code>, <code>webBannerUrl</code>, <code>mobileBannerUrl</code></td>
+        <td><span class="tag tag-success">7 Pages</span> (home, menu, branches, etc.)</td>
+      </tr>
+      <tr>
+        <td><b>PrivacyPolicyCTA</b></td>
+        <td>Global & page-level Call-To-Action sections</td>
+        <td><code>id</code>, <code>page</code>, <code>titleHtml</code>, <code>subtitleHtml</code>, <code>contactUsUrl</code>, <code>exploreMenuUrl</code>, <code>imageUrl</code></td>
+        <td><span class="tag tag-success">8 Sections</span> across all pages</td>
+      </tr>
+      <tr>
+        <td><b>Country</b></td>
+        <td>Country grouping for international branches</td>
+        <td><code>id</code>, <code>name</code>, <code>overrideCount</code></td>
+        <td><span class="tag tag-primary">5 Countries</span> (India, Dubai, UK, Malaysia, Qatar)</td>
+      </tr>
+      <tr>
+        <td><b>Location</b></td>
+        <td>Individual restaurant branches & metadata</td>
+        <td><code>id</code>, <code>title</code>, <code>address</code>, <code>phone</code>, <code>time</code>, <code>imageUrl</code>, <code>state</code>, <code>city</code>, <code>countryId</code> (FK)</td>
+        <td><span class="tag tag-primary">26 Branches</span> (Chennai, Delhi, London, Dubai, etc.)</td>
+      </tr>
+      <tr>
+        <td><b>MenuCategory</b></td>
+        <td>Top-level restaurant menu categories</td>
+        <td><code>id</code>, <code>name</code>, <code>width</code>, <code>displayOrder</code></td>
+        <td><span class="tag tag-success">7 Categories</span> (Breakfast, Coffee, Meals, etc.)</td>
+      </tr>
+      <tr>
+        <td><b>MenuBlock</b></td>
+        <td>Rich highlight cards, descriptions & badges</td>
+        <td><code>id</code> (FK), <code>imageUrl</code>, <code>subtitle</code>, <code>titleHighlight</code>, <code>titleNormal</code>, <code>badgeTitle</code>, <code>align</code></td>
+        <td><span class="tag tag-success">7 Highlight Blocks</span></td>
+      </tr>
+      <tr>
+        <td><b>MenuExperience</b></td>
+        <td>Time-slot dining experience cards</td>
+        <td><code>id</code>, <code>time</code>, <code>title</code>, <code>description</code>, <code>imageUrl</code>, <code>displayOrder</code></td>
+        <td><span class="tag tag-primary">4 Experiences</span> (Morning, Noon, Evening, Midnight)</td>
+      </tr>
+      <tr>
+        <td><b>BranchGalleryImage</b></td>
+        <td>Moving marquee image gallery on website</td>
+        <td><code>id</code>, <code>imageUrl</code>, <code>row</code>, <code>displayOrder</code></td>
+        <td><span class="tag tag-primary">10 Marquee Images</span> (Row 1 & Row 2)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. Key API Endpoints Querying this Database</h2>
+  <ul>
+    <li><b><code>GET /api/branches</code></b> — Queries all Countries joined with active Locations.</li>
+    <li><b><code>GET /api/hero?page=home</code></b> — Retrieves hero banner headline and image for specific page.</li>
+    <li><b><code>GET /api/menu</code></b> — Retrieves full menu structure, category blocks, and dining experiences.</li>
+    <li><b><code>GET /api/branches/gallery</code></b> — Fetches marquee images sorted by row and display order.</li>
+    <li><b><code>POST /api/auth/login</code></b> — Authenticates against <code>User</code> table and returns signed JWT.</li>
+  </ul>
+
+  <h2>4. Storage & Project References</h2>
+  <ul>
+    <li><b>SQL Backup File:</b> <code>prisma/dump.sql</code> (Contains complete table DDL & seed inserts).</li>
+    <li><b>Prisma Definition:</b> <code>prisma/schema.prisma</code> (PostgreSQL generator with serverless binary targets).</li>
+    <li><b>Static Images Directory:</b> <code>public/uploads/</code> (Synced with Render web server).</li>
+  </ul>
+
+  <div class="footer">
+    <div>Project: VB World Backend Architecture</div>
+    <div>Generated: August 27, 2026</div>
+  </div>
+
+</body>
+</html>
