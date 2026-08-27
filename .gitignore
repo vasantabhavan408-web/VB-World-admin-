@@ -24,9 +24,7 @@ yarn-error.log*
 *.db
 *.db-journal
 
-# Uploads and local temp media
-public/uploads/*
-!public/uploads/.gitkeep
+# Scratch
 scratch/
 
 # System files
