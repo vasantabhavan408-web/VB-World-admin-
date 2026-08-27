@@ -34,18 +34,33 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-//app.use(limiter);
+import { prisma } from './utils/prisma.js';
 
 // Mount API routes
 app.use('/api', apiRoutes);
 
-// Root endpoint
-app.get('/', (req: Request, res: Response) => {
+// Root endpoint with database ping
+app.get('/', async (req: Request, res: Response) => {
+  let dbStatus = 'connected';
+  let dbLatencyMs: number | null = null;
+
+  try {
+    const start = Date.now();
+    await prisma.$queryRaw`SELECT 1`;
+    dbLatencyMs = Date.now() - start;
+  } catch (err: any) {
+    dbStatus = `error: ${err.message}`;
+  }
+
   sendSuccess(
     res,
     {
       name: 'VB World Backend API',
       status: 'active',
+      database: {
+        status: dbStatus,
+        latencyMs: dbLatencyMs,
+      },
       endpoints: {
         health: '/health',
         branches: '/api/branches',
@@ -59,9 +74,31 @@ app.get('/', (req: Request, res: Response) => {
   );
 });
 
-// Health Check
-app.get('/health', (req: Request, res: Response) => {
-  sendSuccess(res, { status: 'healthy', timestamp: new Date() }, 'API is active');
+// Health Check with database ping
+app.get('/health', async (req: Request, res: Response) => {
+  let dbStatus = 'healthy';
+  let dbLatencyMs: number | null = null;
+
+  try {
+    const start = Date.now();
+    await prisma.$queryRaw`SELECT 1`;
+    dbLatencyMs = Date.now() - start;
+  } catch (err: any) {
+    dbStatus = 'unhealthy';
+  }
+
+  sendSuccess(
+    res,
+    {
+      status: 'healthy',
+      database: {
+        status: dbStatus,
+        latencyMs: dbLatencyMs,
+      },
+      timestamp: new Date(),
+    },
+    'API and Database are active'
+  );
 });
 
 // Error handling middleware (should be attached at the end)
